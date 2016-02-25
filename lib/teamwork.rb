@@ -28,9 +28,26 @@ module Teamwork
       response.body
     end
 
-    def people(request_params)
+    def people(request_params = nil)
       response = @api_conn.get "people.json", request_params
       response.body
+    end
+
+    def projects(request_params = nil)
+      response = @api_conn.get "projects.json", request_params
+      response.body
+    end
+
+    def assign_people(id, params)
+      @api_conn.put "/projects/#{id}/people.json", params
+    end
+
+    def create_person(params)
+      @api_conn.post 'people.json', params
+    end
+
+    def get_person ()
+      @api_conn.get "people/#{id}.json", params
     end
 
     def latestActivity(maxItems: 60, onlyStarred: false)
@@ -45,6 +62,10 @@ module Teamwork
     def get_comment(id)
       response = @api_conn.get "comments/#{id}.json"
       response.body["comment"]
+    end
+
+    def companies(params = nil)
+      @api_conn.get 'companies.json', params
     end
 
     def get_company_id(name)
@@ -86,7 +107,7 @@ module Teamwork
     end
 
     def attach_post_to_project(title, body, project_id)
-      @api_conn.post "projects/#{project_id}/messsages.json", { post: { title: title, body: body } }
+      @api_conn.post "projects/#{project_id}/posts.json", { post: { title: title, body: body } }
     end
   end
 end
